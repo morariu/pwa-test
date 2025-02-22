@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { insertUserSchema, InsertUser } from "@shared/schema";
+import { insertUserSchema, loginSchema, InsertUser } from "@shared/schema";
 import { Redirect } from "wouter";
 import { Loader2, Lock } from "lucide-react";
 import { useState } from "react";
@@ -16,7 +16,11 @@ export default function AuthPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   const loginForm = useForm({
-    defaultValues: { email: "", password: "" },
+    resolver: zodResolver(loginSchema),
+    defaultValues: { 
+      email: "", 
+      password: "" 
+    },
   });
 
   const registerForm = useForm({
@@ -87,6 +91,11 @@ export default function AuthPage() {
                           type="email"
                           {...loginForm.register("email")}
                         />
+                        {loginForm.formState.errors.email && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {loginForm.formState.errors.email.message}
+                          </p>
+                        )}
                       </div>
                       <div>
                         <Label htmlFor="password">Password</Label>
@@ -95,6 +104,11 @@ export default function AuthPage() {
                           type="password"
                           {...loginForm.register("password")}
                         />
+                        {loginForm.formState.errors.password && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {loginForm.formState.errors.password.message}
+                          </p>
+                        )}
                       </div>
                       <Button
                         type="submit"

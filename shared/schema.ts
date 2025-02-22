@@ -8,9 +8,17 @@ export const users = pgTable("users", {
   password: text("password").notNull(),
 });
 
+const passwordSchema = z.string()
+  .min(8, "Password must be at least 8 characters long")
+  .regex(
+    /[!@#$%^&*(),.?":{}|<>]/,
+    "Password must contain at least one special character"
+  );
+
 export const insertUserSchema = createInsertSchema(users)
   .extend({
     email: z.string().email("Invalid email address"),
+    password: passwordSchema,
     confirmPassword: z.string(),
   })
   .pick({
@@ -22,6 +30,11 @@ export const insertUserSchema = createInsertSchema(users)
     message: "Passwords don't match",
     path: ["confirmPassword"],
   });
+
+export const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: passwordSchema,
+});
 
 export type InsertUser = Omit<z.infer<typeof insertUserSchema>, "confirmPassword">;
 export type User = typeof users.$inferSelect;
