@@ -24,7 +24,9 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: |
+          echo "Starting build process..."
+          npm run build || (echo "Build failed" && exit 1)
         env:
           VITE_BASE_URL: '/${{ github.event.repository.name }}'
 
@@ -38,6 +40,8 @@ jobs:
           ls -la dist/public/
           echo "\nFull directory tree:"
           find ${{ github.workspace }} -type f
+          echo "\nVerifying index.html exists:"
+          cat dist/public/index.html || (echo "index.html not found!" && exit 1)
 
       # Upload artifact
       - name: Upload artifact
