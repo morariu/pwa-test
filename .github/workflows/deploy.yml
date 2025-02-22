@@ -28,10 +28,14 @@ jobs:
         env:
           VITE_BASE_URL: '/${{ github.event.repository.name }}'
 
+      # Add step to verify build output
+      - name: List build output
+        run: ls -la dist/public
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist/public
+          path: dist/public
 
   deploy:
     environment:
