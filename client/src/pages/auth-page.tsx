@@ -3,13 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { insertUserSchema, InsertUser } from "@shared/schema";
 import { Redirect } from "wouter";
-import { Loader2 } from "lucide-react";
+import { Loader2, Lock } from "lucide-react";
 import { useState } from "react";
 
 export default function AuthPage() {
@@ -60,6 +59,16 @@ export default function AuthPage() {
     <div className="min-h-screen bg-white flex">
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
+          {/* Logo Section */}
+          <div className="mb-8 flex justify-center items-center" style={{ aspectRatio: '2/1' }}>
+            <div className="w-full h-full flex items-center justify-center bg-blue-50 rounded-lg">
+              <div className="text-center">
+                <Lock className="w-16 h-16 mx-auto mb-4 text-blue-600" />
+                <h2 className="text-2xl font-bold text-blue-600">Auth PWA</h2>
+              </div>
+            </div>
+          </div>
+
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Login</TabsTrigger>
