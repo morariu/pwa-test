@@ -10,9 +10,11 @@ import { useForm } from "react-hook-form";
 import { insertUserSchema, InsertUser } from "@shared/schema";
 import { Redirect } from "wouter";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 export default function AuthPage() {
-  const { user, loginMutation, registerMutation } = useAuth();
+  const { user, login, register } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const loginForm = useForm({
     defaultValues: { email: "", password: "" },
@@ -26,6 +28,29 @@ export default function AuthPage() {
       confirmPassword: "",
     },
   });
+
+  const handleLogin = async (data: { email: string; password: string }) => {
+    setIsLoading(true);
+    try {
+      await login(data.email, data.password);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRegister = async (data: {
+    email: string;
+    password: string;
+    confirmPassword: string;
+  }) => {
+    setIsLoading(true);
+    try {
+      const { confirmPassword, ...registerData } = data;
+      await register(registerData);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (user) {
     return <Redirect to="/" />;
@@ -44,12 +69,7 @@ export default function AuthPage() {
             <TabsContent value="login">
               <Card>
                 <CardContent className="pt-6">
-                  <Form
-                    {...loginForm}
-                    onSubmit={loginForm.handleSubmit((data) =>
-                      loginMutation.mutate({ email: data.email, password: data.password })
-                    )}
-                  >
+                  <form onSubmit={loginForm.handleSubmit(handleLogin)}>
                     <div className="space-y-4">
                       <div>
                         <Label htmlFor="email">Email</Label>
@@ -70,15 +90,15 @@ export default function AuthPage() {
                       <Button
                         type="submit"
                         className="w-full"
-                        disabled={loginMutation.isPending}
+                        disabled={isLoading}
                       >
-                        {loginMutation.isPending && (
+                        {isLoading && (
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         )}
                         Login
                       </Button>
                     </div>
-                  </Form>
+                  </form>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -86,13 +106,7 @@ export default function AuthPage() {
             <TabsContent value="register">
               <Card>
                 <CardContent className="pt-6">
-                  <Form
-                    {...registerForm}
-                    onSubmit={registerForm.handleSubmit((data) => {
-                      const { confirmPassword, ...registerData } = data;
-                      registerMutation.mutate(registerData as InsertUser);
-                    })}
-                  >
+                  <form onSubmit={registerForm.handleSubmit(handleRegister)}>
                     <div className="space-y-4">
                       <div>
                         <Label htmlFor="reg-email">Email</Label>
@@ -136,15 +150,15 @@ export default function AuthPage() {
                       <Button
                         type="submit"
                         className="w-full"
-                        disabled={registerMutation.isPending}
+                        disabled={isLoading}
                       >
-                        {registerMutation.isPending && (
+                        {isLoading && (
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         )}
                         Register
                       </Button>
                     </div>
-                  </Form>
+                  </form>
                 </CardContent>
               </Card>
             </TabsContent>

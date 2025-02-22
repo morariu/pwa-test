@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function HomePage() {
-  const { user, logoutMutation } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <div className="min-h-screen bg-white p-8">
@@ -14,7 +14,7 @@ export default function HomePage() {
             <strong>Email:</strong> {user?.email}
           </p>
           <Button
-            onClick={() => logoutMutation.mutate()}
+            onClick={logout}
             className="mt-6"
             variant="outline"
           >
