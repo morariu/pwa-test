@@ -28,18 +28,22 @@ jobs:
         env:
           VITE_BASE_URL: '/${{ github.event.repository.name }}'
 
-      # Verify the build output
-      - name: Verify build output
+      # Create and populate the _site directory
+      - name: Prepare deployment
         run: |
-          pwd
-          ls -la
-          ls -la dist/
-          ls -la dist/public/
+          mkdir -p _site
+          cp -r dist/public/* _site/
+
+      # Verify the final structure
+      - name: Verify deployment files
+        run: |
+          echo "Content of _site directory:"
+          ls -la _site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist/public'
+          path: _site
 
   deploy:
     environment:
