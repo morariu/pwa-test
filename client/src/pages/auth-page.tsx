@@ -15,18 +15,15 @@ export default function AuthPage() {
   const { user, loginMutation, registerMutation } = useAuth();
 
   const loginForm = useForm({
-    defaultValues: { username: "", password: "" },
+    defaultValues: { email: "", password: "" },
   });
 
   const registerForm = useForm({
     resolver: zodResolver(insertUserSchema),
     defaultValues: {
-      username: "",
-      password: "",
-      name: "",
-      surname: "",
       email: "",
-      phone: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
@@ -48,17 +45,18 @@ export default function AuthPage() {
               <Card>
                 <CardContent className="pt-6">
                   <Form
-                    form={loginForm}
+                    {...loginForm}
                     onSubmit={loginForm.handleSubmit((data) =>
-                      loginMutation.mutate(data)
+                      loginMutation.mutate({ email: data.email, password: data.password })
                     )}
                   >
                     <div className="space-y-4">
                       <div>
-                        <Label htmlFor="username">Username</Label>
+                        <Label htmlFor="email">Email</Label>
                         <Input
-                          id="username"
-                          {...loginForm.register("username")}
+                          id="email"
+                          type="email"
+                          {...loginForm.register("email")}
                         />
                       </div>
                       <div>
@@ -89,18 +87,25 @@ export default function AuthPage() {
               <Card>
                 <CardContent className="pt-6">
                   <Form
-                    form={registerForm}
-                    onSubmit={registerForm.handleSubmit((data: InsertUser) =>
-                      registerMutation.mutate(data)
-                    )}
+                    {...registerForm}
+                    onSubmit={registerForm.handleSubmit((data) => {
+                      const { confirmPassword, ...registerData } = data;
+                      registerMutation.mutate(registerData as InsertUser);
+                    })}
                   >
                     <div className="space-y-4">
                       <div>
-                        <Label htmlFor="reg-username">Username</Label>
+                        <Label htmlFor="reg-email">Email</Label>
                         <Input
-                          id="reg-username"
-                          {...registerForm.register("username")}
+                          id="reg-email"
+                          type="email"
+                          {...registerForm.register("email")}
                         />
+                        {registerForm.formState.errors.email && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {registerForm.formState.errors.email.message}
+                          </p>
+                        )}
                       </div>
                       <div>
                         <Label htmlFor="reg-password">Password</Label>
@@ -109,29 +114,24 @@ export default function AuthPage() {
                           type="password"
                           {...registerForm.register("password")}
                         />
+                        {registerForm.formState.errors.password && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {registerForm.formState.errors.password.message}
+                          </p>
+                        )}
                       </div>
                       <div>
-                        <Label htmlFor="name">Name</Label>
-                        <Input id="name" {...registerForm.register("name")} />
-                      </div>
-                      <div>
-                        <Label htmlFor="surname">Surname</Label>
+                        <Label htmlFor="confirm-password">Confirm Password</Label>
                         <Input
-                          id="surname"
-                          {...registerForm.register("surname")}
+                          id="confirm-password"
+                          type="password"
+                          {...registerForm.register("confirmPassword")}
                         />
-                      </div>
-                      <div>
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          {...registerForm.register("email")}
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="phone">Phone</Label>
-                        <Input id="phone" {...registerForm.register("phone")} />
+                        {registerForm.formState.errors.confirmPassword && (
+                          <p className="text-sm text-red-500 mt-1">
+                            {registerForm.formState.errors.confirmPassword.message}
+                          </p>
+                        )}
                       </div>
                       <Button
                         type="submit"

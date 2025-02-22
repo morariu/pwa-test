@@ -4,27 +4,24 @@ import { z } from "zod";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
   password: text("password").notNull(),
-  name: text("name").notNull(),
-  surname: text("surname").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone").notNull(),
 });
 
 export const insertUserSchema = createInsertSchema(users)
   .extend({
     email: z.string().email("Invalid email address"),
-    phone: z.string().regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number"),
+    confirmPassword: z.string(),
   })
   .pick({
-    username: true,
-    password: true,
-    name: true,
-    surname: true,
     email: true,
-    phone: true,
+    password: true,
+    confirmPassword: true,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
   });
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
+export type InsertUser = Omit<z.infer<typeof insertUserSchema>, "confirmPassword">;
 export type User = typeof users.$inferSelect;
