@@ -40,11 +40,13 @@ jobs:
           echo "Content of _site directory:"
           ls -la _site/
 
+      # Upload artifact
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: '_site'
           name: 'github-pages'
+          retention-days: 1
 
   deploy:
     environment:
