@@ -31,13 +31,14 @@ jobs:
           echo "\nDirectory contents:"
           ls -la
 
-      # Build step with enhanced error handling
+      # Build step with enhanced error handling and base path
       - name: Build
         run: |
           echo "Starting build process..."
           npm run build || (echo "Build failed" && exit 1)
         env:
           VITE_BASE_URL: '/${{ github.event.repository.name }}'
+          PUBLIC_URL: '/${{ github.event.repository.name }}'
 
       # Debug: Show build output
       - name: Debug build output
@@ -49,23 +50,11 @@ jobs:
           echo "\nVerifying index.html:"
           cat dist/public/index.html || (echo "index.html not found!" && exit 1)
 
-      # Create artifact directory
-      - name: Create GitHub Pages artifact
-        run: |
-          echo "Creating artifact directory..."
-          mkdir -p ./_site
-          echo "Copying build files..."
-          cp -r dist/public/* ./_site/
-          echo "Verifying artifact contents:"
-          ls -la ./_site/
-          echo "Verifying permissions on _site directory:"
-          ls -ld ./_site/  #Added line to check permissions
-
-      # Upload artifact
+      # Upload Pages artifact (using latest version)
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
-          path: ./_site
+          path: dist/public
 
   deploy:
     environment:
