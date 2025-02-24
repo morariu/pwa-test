@@ -50,9 +50,9 @@ jobs:
           echo "\nVerifying index.html:"
           cat dist/public/index.html || (echo "index.html not found!" && exit 1)
 
-      # Upload Pages artifact (using v4)
+      # Upload Pages artifact (using v2)
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v2
         with:
           path: dist/public
 
@@ -65,4 +65,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v2
