@@ -50,9 +50,9 @@ jobs:
           echo "\nVerifying index.html:"
           cat dist/public/index.html || (echo "index.html not found!" && exit 1)
 
-      # Upload Pages artifact (using latest version)
+      # Upload Pages artifact (using v4)
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v4
         with:
           path: dist/public
 
