@@ -49,7 +49,7 @@ jobs:
           echo "\nVerifying index.html:"
           cat dist/public/index.html || (echo "index.html not found!" && exit 1)
 
-      # Create artifact
+      # Create artifact directory
       - name: Create GitHub Pages artifact
         run: |
           echo "Creating artifact directory..."
@@ -58,6 +58,8 @@ jobs:
           cp -r dist/public/* ./_site/
           echo "Verifying artifact contents:"
           ls -la ./_site/
+          echo "Verifying permissions on _site directory:"
+          ls -ld ./_site/  #Added line to check permissions
 
       # Upload artifact
       - name: Upload Pages artifact
