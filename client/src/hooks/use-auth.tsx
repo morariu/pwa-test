@@ -81,5 +81,20 @@ export function useAuth() {
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
-  return context;
+
+  // Intercept and modify redirects
+  const modifiedContext = {
+    ...context,
+    login: async (...args: Parameters<typeof context.login>) => {
+      const result = await context.login(...args);
+      window.location.href = '/pwa-test';
+      return result;
+    },
+    logout: () => {
+      context.logout();
+      window.location.href = '/pwa-test/auth';
+    }
+  };
+
+  return modifiedContext;
 }

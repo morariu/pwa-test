@@ -14,8 +14,8 @@ function Router() {
     <Switch>
       <Route path="/pwa-test/auth" component={AuthPage} />
       <ProtectedRoute path="/pwa-test" component={HomePage} />
-      <Route path="/" component={() => <Redirect to="/pwa-test" />} />
-      <Route component={NotFound} />
+      <Route path="/pwa-test" component={() => <Redirect to="/pwa-test" />} />
+      <Route path="*" component={() => <Redirect to="/pwa-test" />} />
     </Switch>
   );
 }
