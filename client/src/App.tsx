@@ -9,12 +9,11 @@ import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
-  const base = "/pwa-test";
   return (
-    <Switch base={base}>
-      <ProtectedRoute path="/" component={HomePage} />
-      <Route path="/auth" component={AuthPage} />
-      <Route component={NotFound} />
+    <Switch>
+      <ProtectedRoute path="/pwa-test" component={HomePage} />
+      <Route path="/pwa-test/auth" component={AuthPage} />
+      <Route path="/pwa-test/*" component={NotFound} />
     </Switch>
   );
 }
