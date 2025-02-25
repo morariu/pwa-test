@@ -1,8 +1,10 @@
+
 {
   "name": "Auth PWA",
   "short_name": "Auth",
   "description": "A PWA with authentication features",
-  "start_url": "/",
+  "start_url": "/pwa-test/",
+  "scope": "/pwa-test/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
