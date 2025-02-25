@@ -12,10 +12,10 @@ import { queryClient } from "./lib/queryClient";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={() => <Redirect to="/pwa-test" />} />
-      <ProtectedRoute path="/pwa-test" component={HomePage} />
       <Route path="/pwa-test/auth" component={AuthPage} />
-      <Route path="/pwa-test/*" component={NotFound} />
+      <ProtectedRoute path="/pwa-test" component={HomePage} />
+      <Route path="/" component={() => <Redirect to="/pwa-test" />} />
+      <Route component={NotFound} />
     </Switch>
   );
 }
