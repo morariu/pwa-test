@@ -9,11 +9,11 @@ import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
-  const base = import.meta.env.BASE_URL;
+  const base = "/pwa-test";
   return (
-    <Switch>
-      <ProtectedRoute path={base} component={HomePage} />
-      <Route path={`${base}auth`} component={AuthPage} />
+    <Switch base={base}>
+      <ProtectedRoute path="/" component={HomePage} />
+      <Route path="/auth" component={AuthPage} />
       <Route component={NotFound} />
     </Switch>
   );
