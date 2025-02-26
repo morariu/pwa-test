@@ -19,6 +19,14 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => caches.match('/pwa-test/index.html'))
+    );
+    return;
+  }
+  
   event.respondWith(
     fetch(event.request)
       .catch(() => {

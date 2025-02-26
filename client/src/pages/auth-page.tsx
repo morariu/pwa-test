@@ -124,6 +124,11 @@ export default function AuthPage() {
                   </form>
                 </CardContent>
               </Card>
+              <div className="mt-4 text-center text-sm text-gray-500">
+                <a href="/pwa-test/terms" className="hover:underline">Terms</a>
+                {" · "}
+                <a href="/pwa-test/privacy" className="hover:underline">Privacy</a>
+              </div>
             </TabsContent>
 
             <TabsContent value="register">
@@ -184,6 +189,11 @@ export default function AuthPage() {
                   </form>
                 </CardContent>
               </Card>
+              <div className="mt-4 text-center text-sm text-gray-500">
+                <a href="/pwa-test/terms" className="hover:underline">Terms</a>
+                {" · "}
+                <a href="/pwa-test/privacy" className="hover:underline">Privacy</a>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
