@@ -10,6 +10,8 @@ self.addEventListener('install', (event) => {
         OFFLINE_URL,
         `${BASE_PATH}/`,
         `${BASE_PATH}/auth`,
+        `${BASE_PATH}/terms`,
+        `${BASE_PATH}/privacy`,
         `${BASE_PATH}/manifest.json`
       ]);
     })
