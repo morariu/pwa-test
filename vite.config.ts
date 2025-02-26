@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default defineConfig({
-  base: '/pwa-test/',
+  base: "/pwa-test/",
   plugins: [
     react(),
     runtimeErrorOverlay(),
@@ -31,7 +31,7 @@ export default defineConfig({
   },
   root: path.resolve(__dirname, "client"),
   build: {
-    outDir: path.resolve(__dirname, "dist/public"),
+    outDir: path.resolve(__dirname, "dist"), // Changed from 'dist/public' to 'dist'
     emptyOutDir: true,
   },
 });
