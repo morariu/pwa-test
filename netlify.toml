@@ -6,3 +6,8 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[redirects]]
+  from = "/pwa-test/*"
+  to = "/pwa-test/index.html"
+  status = 200
